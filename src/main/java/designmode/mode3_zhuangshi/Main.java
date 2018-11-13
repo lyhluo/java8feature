@@ -1,7 +1,9 @@
 package designmode.mode3_zhuangshi;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * 装饰模式: 动态地给对象添加额外的职能，比子类更灵活
@@ -9,12 +11,19 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) {
-        Cloth cloth = new Cloth(new Person("JackLi"));
+        Person rockLi = new Person("RockLi");
+        Cloth cloth = new Cloth(rockLi);
+//        cloth.show();
+        System.out.println("---");
+
+
+
+
+
         Tshirt jackLiTshirt = new Tshirt(cloth);
-        jackLiTshirt.show();// NullPointException ??
-        Skirt skirt = new Skirt(jackLiTshirt);
-        System.out.println(skirt);
-        skirt.show();
+        jackLiTshirt.show(cloth);// NullPointException ??
+        Skirt skirt = new Skirt(cloth);
+        skirt.show(cloth);
     }
 }
 
@@ -62,9 +71,9 @@ class Skirt extends Cloth {
  * 这也是动态功能
  *
  */
-class Cloth extends Person{
+class Cloth {
 
-    public Cloth(){}
+
 
     private Person person;
 
@@ -75,13 +84,13 @@ class Cloth extends Person{
     public void setPerson(Person person) {
         this.person = person;
     }
-
+    public Cloth(){}
     // todo
     public Cloth(Person person) {
         this.person = person;
     }
 
-    protected List<String> clothes = new ArrayList<>();
+    private List<String> clothes = new ArrayList<>();
 
     public List<String> getClothes() {
         return clothes;
@@ -92,10 +101,12 @@ class Cloth extends Person{
     }
 
     // 衣服的展示
-    public void show() {
-        System.out.println("我是" + super.getName());//todo  着重看这里 为什么这里的person是null？？ 这里的name也是null
-        System.out.println( ", 我穿了：" + this.getClothes());
-        System.out.println( ", 我穿了：" + this.getClothes());
+    public void show(Cloth cloth) {
+        System.out.println("我是" + cloth.getPerson().getName());//todo  着重看这里 为什么这里的person是null？？
+        ListIterator<String> stringListIterator = cloth.getClothes().listIterator();
+        while (stringListIterator.hasNext()) {
+            System.out.print(stringListIterator.next() + " ");
+        }
     }
 
 }
@@ -108,6 +119,22 @@ class Person {
         this.name = name;
     }
 
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+class Son {
+
+}
+
+class Father {
     private String name;
 
     public String getName() {
