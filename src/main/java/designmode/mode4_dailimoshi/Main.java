@@ -38,6 +38,10 @@ class Xiaohua extends Act {
     }
 }
 
+/**
+ * 小明继承Act的原因是小明也要有送礼物的动作（代理）
+ * 但小明送礼物的动作（即giveGifts方法）需要重写为调用小华送礼物的动作（即真实的动作）
+ */
 class Xiaoming extends Act {
     public void giveGifts(String name) {
         Xiaohua xiaohua = new Xiaohua();
